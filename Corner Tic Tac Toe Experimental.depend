@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1614659571 source:g:\desktop\online school\codes\corner tic tac toe\main.cpp
+	<iostream>
+	<stdlib.h>
+
+1616344824 source:d:\desktop\online school\codes\corner tic tac toe experimental\main.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1651203133 source:c:\users\snoozer\desktop\c++ programs\corner tic tac toe experimental\main.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1659335475 source:c:\users\snoozer\c++ projects\corner tic tac toe experimental\main.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+

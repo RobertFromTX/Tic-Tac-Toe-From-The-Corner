@@ -1,0 +1,163 @@
+// runs a set amount of tic-tac-toe games starting from the corner
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+using namespace std;
+
+const int X = 1;
+const int O = -1;
+const int WIN = 3;
+const int LOSE = -3;
+
+char move(int value){
+    if(value == X){
+        return 'X';
+    }
+    if(value == O){
+        return 'O';
+    }
+    return '*';
+}
+void resetBoard(int board[3][3]){
+    //look into memset - would be more efficient with large array
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            board[i][j] = 0;
+        }
+    }
+    //set top left corner to 1 (X)
+    board[0][0] = 1;
+}
+
+void placeXO(int value, int board[3][3], int turnNo){
+    int findPlace = 0;
+    
+    while (findPlace == 0){
+        int randNum = (rand() % 9);
+        int row = randNum / 3 ;//2D array 0 - 8 value
+        int column = randNum - (row * 3);
+        if(board[row][column] == 0){
+            board[row][column] = value;
+            cout << "Turn " << turnNo << ": " << move(value) << " move: [" << row << "," << column << "]" << endl;
+            break;            
+        }
+    }
+}
+
+//Return Win, Lose, Undecide
+int checkWinLose(int board[3][3]){
+    //Win if a row, a colum or diagonal adds up to 3, Lose if add up to -3
+    //Since X=1 and O=-1
+    //check row
+    int sum = 0;
+    //check row sum
+    for(int row = 0; row < 3; row++){
+        sum = 0;
+        for(int column = 0; column < 3; column++){
+            sum = sum + board[row][column];
+        }
+        //get to here then done with one row
+        if(sum == WIN || sum == LOSE){
+            return sum;
+        }
+    }
+    //if get to here, then check column sum
+    for(int column = 0; column < 3; column++){
+        sum = 0;
+        for(int row = 0; row < 3; row++){
+            sum = sum + board[row][column];
+        }
+        if(sum == WIN || sum == LOSE){
+            return sum;
+        }
+    }
+    //if get to here then check diagonal
+    sum = board[0][0] + board[1][1] + board[2][2];
+    if(sum == WIN || sum == LOSE){
+        return sum;
+    }
+    sum = board[0][2] + board[1][1] + board[2][0];
+    if(sum == WIN || sum == LOSE){
+        return sum;
+    }
+    //if here then no WIN nor LOSE
+    return 0;
+}
+
+int main()
+{
+    srand((int)time(0));
+    //
+    //    int slot1,slot2,slot3,slot4,slot5,slot6,slot7,slot8,slot9;
+    //    slot1=1; slot2=0; slot3=0; slot4=0; slot5=0; slot6=0; slot7=0; slot8=0; slot9=0;
+    //    int turn2,turn3,turn4,turn5,turn6,turn7,turn8,turn9;
+    int board[3][3];
+    //int board[3][3] = { {slot1, slot2, slot3}, {slot4, slot5, slot6}, {slot7, slot8, slot9}}; //I actually have no idea why I
+    int winCounter = 0;                                                                       //didn't put zeros here in array
+    int lossCounter = 0;
+    int trials;
+    cout << "Enter how many trials you want to run (1-10000): "; // Not optomized, takes a while to run if 10000 trials
+    cin >> trials;                                                                                          //are done
+    cout << endl;
+
+    for (int iList = 0; iList < trials; iList++)
+    {
+        //don't need this for loop
+        //for(int rList = 0; rList < 1;)
+        //{
+                //always have X (1) at the corner? Is that why you set all slots except for [0][0]?
+                //should make reset board function
+                //board[0][1] = 0; //sets all board slots except [0][1] to zero
+                //board[0][2] = 0; //board[0][0] board[0][1] board[0][2]
+                //board[1][0] = 0; //board[1][0] board[1][1] board[1][2]       <--- tic-tac-toe board layout
+                //board[1][1] = 0; //board[2][0] board[2][1] board[2][2]
+                //board[1][2] = 0;
+                //board[2][0] = 0; //the turn variable determines where a tic is placed
+                //board[2][1] = 0; //while the board variables are changed depending on what the slot variables
+                //board[2][2] = 0;
+        resetBoard(board);
+        //assume turn 1 is X at the corner
+        for(int turnNo = 1; turnNo < 9; turnNo++){
+            //X if turnNo is even, O if turnNo is odd
+            int value;
+            if(turnNo %2 == 0){
+                value = X;
+            }
+            else{
+                value = O;
+            }
+            //Now decide where to place on board
+            placeXO(value, board, turnNo);
+            //if more than 4 turns; check win/lose
+            if(turnNo >= 3){
+                //check win lose
+                int result = checkWinLose(board);
+                //cout << result << endl;
+                if(result == WIN){
+                    winCounter++;
+                    break;
+                }
+                if(result == LOSE){
+                    lossCounter++;
+                    break;
+                }
+            }
+        }
+        //print board
+        //probably should make a function in case need to print during each move
+        for(int games = 0; games < 1; games++){
+            for(int i = 0; i < 3; i++){
+                for(int j = 0; j < 3; j++){
+                    cout << move(board[i][j]) << " " ;
+                }
+                cout << endl;
+            }
+            cout << endl;
+        }
+    }
+
+    cout << "X Wins: " << winCounter << " out of " << trials << endl;
+    cout << "X Defeated: " << lossCounter << " out of " << trials << endl;
+    return 0;
+}
