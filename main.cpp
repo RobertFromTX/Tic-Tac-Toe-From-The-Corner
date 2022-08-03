@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+
 using namespace std;
 
 int checkW(int boardW[3][3])
@@ -646,6 +647,7 @@ int main()
 
          cout << "Wins: " << winCounter << endl;
          cout << "Defeats: " << lossCounter << endl;
+         system("pause"); //apparently only works on windows
          return 0;
 
 }
